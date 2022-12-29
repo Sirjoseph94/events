@@ -16,7 +16,9 @@ router.post(
       const response = await Controller.signUpController(payload);
       return res.status(201).json({ message: "successful", response });
     } catch (error: any) {
-      return res.status(error.status).json({status: "failed", reason: error.message });
+      return res
+        .status(error.status)
+        .json({ status: "failed", reason: error.message });
     }
   }
 );

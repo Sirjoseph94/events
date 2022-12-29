@@ -48,7 +48,9 @@ router.post("/signup", (0, validation_1.default)(Validation.signupValidation), (
         return res.status(201).json({ message: "successful", response });
     }
     catch (error) {
-        return res.status(error.status).json({ status: "failed", reason: error.message });
+        return res
+            .status(error.status)
+            .json({ status: "failed", reason: error.message });
     }
 }));
 router.post("/signin", (0, validation_1.default)(Validation.signInValidation), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
