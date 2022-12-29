@@ -13,33 +13,29 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.signInController = exports.signUpController = void 0;
-const validations_1 = require("../utils/validations");
+const UserValidation_1 = require("../middleware/validation/UserValidation");
 const prismaClient_1 = __importDefault(require("../config/prismaClient"));
 const hashPassword_1 = require("../utils/hashPassword");
-const token_1 = require("../utils/token");
+const token_1 = require("../middleware/token");
 const signUpController = (payload) => __awaiter(void 0, void 0, void 0, function* () {
-    const isValid = validations_1.signupValidation.safeParse(payload);
+    const isValid = UserValidation_1.signupValidation.safeParse(payload);
     if (!isValid.success) {
         throw isValid.error;
     }
     const record = isValid.data;
-    yield prismaClient_1.default.user.create({
+    const response = yield prismaClient_1.default.user.create({
         data: {
             name: record.name,
             email: record.email,
             password: (yield (0, hashPassword_1.encryptPassword)(record.password)),
             isAdmin: record.isAdmin,
-        },
-        select: {
-            name: true,
-            email: true,
-            isAdmin: true,
-        },
+        }
     });
+    return (0, token_1.generateAccessToken)(response.id);
 });
 exports.signUpController = signUpController;
 const signInController = (payload) => __awaiter(void 0, void 0, void 0, function* () {
-    const isValid = validations_1.signInValidation.safeParse(payload);
+    const isValid = UserValidation_1.signInValidation.safeParse(payload);
     if (!isValid.success) {
         throw isValid.error;
     }

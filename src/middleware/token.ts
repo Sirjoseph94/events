@@ -31,6 +31,7 @@ export async function auth(
     if (!decoded) {
       res.status(401).send("Unauthorized");
     }
+    
     const { user_id } = decoded as { [key: string]: string };
     const user = await prisma.user.findUnique({
       where: {

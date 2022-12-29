@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.auth = exports.generateAccessToken = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const dotenv_1 = __importDefault(require("dotenv"));
-const prismaClient_1 = __importDefault(require("../config/prismaClient"));
+const prismaClient_1 = __importDefault(require("../conf/prismaClient"));
 // const createNameSpace = cls_hooked.createNamespace
 dotenv_1.default.config();
 const key = process.env.AUTH_SECRET;
