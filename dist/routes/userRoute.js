@@ -38,12 +38,23 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const Controller = __importStar(require("../controllers/userController"));
 const validation_1 = __importDefault(require("../middleware/validation"));
-const UserValidation_1 = require("../middleware/validation/UserValidation");
+const Validation = __importStar(require("../utils/validation/UserValidation"));
 const router = (0, express_1.Router)();
-router.post("/signup", (0, validation_1.default)(UserValidation_1.signupValidation), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.post("/signup", (0, validation_1.default)(Validation.signupValidation), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const payload = req.body;
+        console.log(payload);
         const response = yield Controller.signUpController(payload);
+        return res.status(201).json({ message: "successful", response });
+    }
+    catch (error) {
+        return res.status(error.status).json({ status: "failed", reason: error.message });
+    }
+}));
+router.post("/signin", (0, validation_1.default)(Validation.signInValidation), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const payload = req.body;
+        const response = yield Controller.signInController(payload);
         return res.status(201).json({ message: "successful", response });
     }
     catch (error) {
@@ -53,17 +64,6 @@ router.post("/signup", (0, validation_1.default)(UserValidation_1.signupValidati
         }
         console.log(error);
         return res.status(error.status).json({ message: error.message });
-    }
-}));
-router.post("/signin", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const payload = req.body;
-        const response = yield Controller.signInController(payload);
-        return res.status(201).json({ message: "successful", response });
-    }
-    catch (error) {
-        console.log(error);
-        return res.sendStatus;
     }
 }));
 exports.default = router;

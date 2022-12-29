@@ -13,11 +13,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.signInController = exports.signUpController = void 0;
-const UserValidation_1 = require("../middleware/validation/UserValidation");
 const prismaClient_1 = __importDefault(require("../config/prismaClient"));
 const hashPassword_1 = require("../utils/hashPassword");
-const token_1 = require("../middleware/token");
+const generateToken_1 = require("../utils/generateToken");
 const signUpController = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = yield prismaClient_1.default.user.findUnique({
+        where: {
+            email: payload.email
+        }
+    });
+    if (user) {
+        throw { status: 400, message: `User with the email ${user.email} already exist, kindly sign in` };
+    }
     const response = yield prismaClient_1.default.user.create({
         data: {
             name: payload.name,
@@ -26,27 +33,22 @@ const signUpController = (payload) => __awaiter(void 0, void 0, void 0, function
             isAdmin: payload.isAdmin,
         },
     });
-    return (0, token_1.generateAccessToken)(response.id);
+    return (0, generateToken_1.generateAccessToken)(response.id);
 });
 exports.signUpController = signUpController;
 const signInController = (payload) => __awaiter(void 0, void 0, void 0, function* () {
-    const isValid = UserValidation_1.signInValidation.safeParse(payload);
-    if (!isValid.success) {
-        throw isValid.error;
-    }
-    const { email, password } = isValid.data;
     const user = yield prismaClient_1.default.user.findUnique({
         where: {
-            email,
+            email: payload.email,
         },
     });
     if (!user) {
-        throw `We have no record of the email ${email}, please sign up`;
+        throw `We have no record of the email ${payload.email}, please sign up`;
     }
-    const match = yield (0, hashPassword_1.decryptPassword)(password, user.password);
+    const match = yield (0, hashPassword_1.decryptPassword)(payload.password, user.password);
     if (!match) {
         throw "Password is not correct";
     }
-    return (0, token_1.generateAccessToken)(user.id);
+    return (0, generateToken_1.generateAccessToken)(user.id);
 });
 exports.signInController = signInController;

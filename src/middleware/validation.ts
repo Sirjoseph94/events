@@ -12,7 +12,8 @@ const validate =
       });
       return next();
     } catch (error: any) {
-      return res.status(400).json(error);
+      const msg = error.issues.map((e: { message: string; }) => e.message )
+      return res.status(400).json(msg);
     }
   };
 
