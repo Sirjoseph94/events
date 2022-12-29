@@ -1,21 +1,19 @@
-import { signInValidation, signupValidation } from "../middleware/validation/UserValidation";
+import {
+  signInValidation,
+  signupValidation,
+} from "../middleware/validation/UserValidation";
 import prisma from "../config/prismaClient";
 import { decryptPassword, encryptPassword } from "../utils/hashPassword";
 import { generateAccessToken } from "../middleware/token";
 
-export const signUpController = async (payload: Record<string, unknown>) => {
-  const isValid = signupValidation.safeParse(payload);
-  if (!isValid.success) {
-    throw isValid.error;
-  }
-  const record = isValid.data;
+export const signUpController = async (payload: Record<string, any>) => {
   const response = await prisma.user.create({
     data: {
-      name: record.name,
-      email: record.email,
-      password: (await encryptPassword(record.password)) as string,
-      isAdmin: record.isAdmin,
-    }
+      name: payload.name,
+      email: payload.email,
+      password: (await encryptPassword(payload.password)) as string,
+      isAdmin: payload.isAdmin,
+    },
   });
 
   return generateAccessToken(response.id);

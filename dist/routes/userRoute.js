@@ -31,11 +31,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const Controller = __importStar(require("../controllers/userController"));
+const validation_1 = __importDefault(require("../middleware/validation"));
+const UserValidation_1 = require("../middleware/validation/UserValidation");
 const router = (0, express_1.Router)();
-router.post("/signup", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.post("/signup", (0, validation_1.default)(UserValidation_1.signupValidation), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const payload = req.body;
         const response = yield Controller.signUpController(payload);

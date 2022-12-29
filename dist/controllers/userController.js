@@ -18,18 +18,13 @@ const prismaClient_1 = __importDefault(require("../config/prismaClient"));
 const hashPassword_1 = require("../utils/hashPassword");
 const token_1 = require("../middleware/token");
 const signUpController = (payload) => __awaiter(void 0, void 0, void 0, function* () {
-    const isValid = UserValidation_1.signupValidation.safeParse(payload);
-    if (!isValid.success) {
-        throw isValid.error;
-    }
-    const record = isValid.data;
     const response = yield prismaClient_1.default.user.create({
         data: {
-            name: record.name,
-            email: record.email,
-            password: (yield (0, hashPassword_1.encryptPassword)(record.password)),
-            isAdmin: record.isAdmin,
-        }
+            name: payload.name,
+            email: payload.email,
+            password: (yield (0, hashPassword_1.encryptPassword)(payload.password)),
+            isAdmin: payload.isAdmin,
+        },
     });
     return (0, token_1.generateAccessToken)(response.id);
 });
