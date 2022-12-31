@@ -10,10 +10,8 @@ const validate =
         query: req.query,
         params: req.params,
       });
-      if(!valid.success) throw valid.error;
-      req.body = valid.data.body
-      req.query = valid.data.query
-      req.params = valid.data.params
+      if (!valid.success) throw valid.error;
+      req.body = valid.data.body;
       return next();
     } catch (error: any) {
       console.error(error);

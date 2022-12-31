@@ -1,6 +1,6 @@
 import prisma from "../config/prismaClient";
 import isAdmin from "../utils/isAdmin";
-import { newEvent } from "../utils/validation/EventValidation";
+import { newEvent, updateEvent } from "../utils/validation/EventValidation";
 
 export const allEvents = async () => {
   const events = await prisma.event.findMany({
@@ -74,6 +74,94 @@ export const viewSingleEvent = async (id: string) => {
     };
   }
   return event;
+};
+
+export const updateEventByID = async (
+  id: string,
+  user_id: string,
+  payload: updateEvent["body"]
+) => {
+  if ((await isAdmin(user_id)) === true) {
+    const disconnect = await prisma.event.update({
+      where: { id },
+      data: {
+        name: payload?.name,
+        description: payload?.description,
+        start_date: payload?.start_date,
+        end_date: payload?.end_date,
+        isPremium: payload?.isPremium,
+        author_id: id,
+        event_types: {
+          set: [],
+        },
+        speakers: {
+          set: [],
+        },
+      },
+    });
+
+    const updateRelations: any = await prisma.event.update({
+      where: { id },
+      data: {
+        name: payload?.name,
+        description: payload?.description,
+        start_date: payload?.start_date,
+        end_date: payload?.end_date,
+        isPremium: payload?.isPremium,
+        author_id: id,
+        event_types: {
+          connectOrCreate: payload.event_types?.map(type => {
+            return {
+              where: { name: type },
+              create: { name: type },
+            };
+          }),
+        },
+        speakers: {
+          connectOrCreate: payload.speakers?.map(speaker => {
+            return {
+              where: { name: speaker.name },
+              create: { name: speaker.name, designation: speaker.designation },
+            };
+          }),
+        },
+      },
+    });
+
+    const response = await prisma.$transaction([disconnect, updateRelations]);
+    console.log(response);
+
+    // const response = await prisma.event.update({
+    //   where: {
+    //     id,
+    //   },
+    //   data: {
+    //     name: payload?.name,
+    //     description: payload?.description,
+    //     start_date: payload?.start_date,
+    //     end_date: payload?.end_date,
+    //     isPremium: payload?.isPremium,
+    //     author_id: id,
+    //     event_types: {
+    //       update: payload.event_types?.map(type => {
+    //         return {
+    //           where: { name: type },
+    //           data: { name: type },
+    //         };
+    //       }),
+    //     },
+    //     speakers: {
+    //       update: payload.speakers?.map(speaker => {
+    //         return {
+    //           where: { name: speaker.name },
+    //           data: { name: speaker.name, designation: speaker.designation },
+    //         };
+    //       }),
+    //     },
+    //   },
+    // });
+    // return response;
+  }
 };
 
 export const removeEvent = async (event_id: string, user_id: string) => {
