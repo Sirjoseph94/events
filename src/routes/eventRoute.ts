@@ -34,4 +34,27 @@ router.post(
   }
 );
 
+router
+  .route("/:id")
+  .get(validate(Validator.id), async (req, res) => {
+    try {
+      const { id } = req.params;
+      const response = await Controller.viewSingleEvent(id);
+      return res.status(200).json({ status: "successful", response });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json(error);
+    }
+  })
+  .delete(auth, validate(Validator.id), async (req: userRequest, res) => {
+    try {
+      const { user_id } = req.user;
+      const event_id = req.params.id;
+      const response = await Controller.removeEvent(event_id, user_id);
+      return res.json(204).json({ status: "successful", response });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json(error);
+    }
+  });
 export default router;

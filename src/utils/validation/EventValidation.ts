@@ -51,3 +51,13 @@ export const createEventValidation = z.object({
 });
 
 export type newEvent = z.infer<typeof createEventValidation>;
+
+export const id = z.object({
+  params: z.object({
+    id: z
+      .string({
+        required_error: "this is not a valid UUID",
+      })
+      .min(36),
+  }),
+});
