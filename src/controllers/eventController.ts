@@ -82,43 +82,43 @@ export const updateEventByID = async (
   payload: updateEvent["body"]
 ) => {
   if ((await isAdmin(user_id)) === true) {
-    const disconnect = await prisma.event.update({
+    const data = await prisma.event.findUnique({
       where: { id },
-      data: {
-        name: payload?.name,
-        description: payload?.description,
-        start_date: payload?.start_date,
-        end_date: payload?.end_date,
-        isPremium: payload?.isPremium,
-        author_id: id,
-        event_types: {
-          set: [],
-        },
-        speakers: {
-          set: [],
-        },
+      include: {
+        event_types: true,
+        speakers: true,
       },
     });
-
-    const updateRelations: any = await prisma.event.update({
+    if (!data) {
+      throw { status: 404, reason: "Event does not exist" };
+    }
+    const event_types = (payload.event_types || data.event_types).map(type => {
+      return {
+        name: type,
+      };
+    });
+    const response = await prisma.event.update({
       where: { id },
       data: {
-        name: payload?.name,
-        description: payload?.description,
-        start_date: payload?.start_date,
-        end_date: payload?.end_date,
-        isPremium: payload?.isPremium,
-        author_id: id,
+        name: payload?.name || data.name,
+        description: payload?.description || data.description,
+        start_date: payload?.start_date || data.start_date,
+        end_date: payload?.end_date || data.end_date,
+        isPremium: payload?.isPremium || data.isPremium,
         event_types: {
-          connectOrCreate: payload.event_types?.map(type => {
-            return {
-              where: { name: type },
-              create: { name: type },
-            };
-          }),
+          set: [],
+          connectOrCreate: (payload?.event_types || data.event_types).map(
+            type => {
+              return {
+                where: { name: type },
+                create: { name: type },
+              };
+            }
+          ) as any,
         },
         speakers: {
-          connectOrCreate: payload.speakers?.map(speaker => {
+          set: [],
+          connectOrCreate: (payload?.speakers || data.speakers).map(speaker => {
             return {
               where: { name: speaker.name },
               create: { name: speaker.name, designation: speaker.designation },
@@ -127,40 +127,7 @@ export const updateEventByID = async (
         },
       },
     });
-
-    const response = await prisma.$transaction([disconnect, updateRelations]);
-    console.log(response);
-
-    // const response = await prisma.event.update({
-    //   where: {
-    //     id,
-    //   },
-    //   data: {
-    //     name: payload?.name,
-    //     description: payload?.description,
-    //     start_date: payload?.start_date,
-    //     end_date: payload?.end_date,
-    //     isPremium: payload?.isPremium,
-    //     author_id: id,
-    //     event_types: {
-    //       update: payload.event_types?.map(type => {
-    //         return {
-    //           where: { name: type },
-    //           data: { name: type },
-    //         };
-    //       }),
-    //     },
-    //     speakers: {
-    //       update: payload.speakers?.map(speaker => {
-    //         return {
-    //           where: { name: speaker.name },
-    //           data: { name: speaker.name, designation: speaker.designation },
-    //         };
-    //       }),
-    //     },
-    //   },
-    // });
-    // return response;
+    return response;
   }
 };
 

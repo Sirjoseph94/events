@@ -1,0 +1,3 @@
+{
+  "openapi.tryit.insecureSslHostnames": ["events-be.onrender.com"]
+}

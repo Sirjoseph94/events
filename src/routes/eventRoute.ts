@@ -46,7 +46,7 @@ router
       return res.status(500).json(error);
     }
   })
-  // still having bugs
+
   .patch(
     auth,
     validate(Validator.updateEventValidation),
