@@ -5,13 +5,18 @@ generator client {
   provider = "prisma-client-js"
 }
 
+// datasource db {
+//   provider = "postgresql"
+//   url      = env("DATABASE_URL")
+// }
+
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url      = "file:./dev.db"
 }
 
 model User {
-  id    String  @id @unique @default(uuid())
+  id    String  @id  @default(uuid())
   email String  @unique
   name  String
   password String
@@ -25,7 +30,7 @@ model User {
 }
 
 model Event {
-  id String @id @unique @default(uuid())
+  id String @id  @default(uuid())
   name String 
   description String
   start_date DateTime
@@ -44,15 +49,15 @@ model Event {
 }
 
 model EventType {
-  id String @id @unique @default(uuid())
-  name String
+  id String @id  @default(uuid())
+  name String @unique
 
-  events Event[]
+  events Event[] 
 }
 
 model Speaker {
-  id String @id @unique @default(uuid())
-  name String
+  id String @id  @default(uuid())
+  name String @unique
   designation String
   createdAt DateTime @default(now())
   updatedAT DateTime @updatedAt
@@ -61,7 +66,7 @@ model Speaker {
 }
 
 model Registration {
-  id String @id @unique @default(uuid())
+  id String @id  @default(uuid())
   attendee User @relation(fields: [attendee_id], references: [id])
   attendee_id String
   event Event @relation(fields: [event_id], references: [id])

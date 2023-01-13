@@ -6,6 +6,7 @@ import * as Validation from "../utils/validation/UserValidation";
 
 const router = Router();
 
+
 router.post(
   "/signup",
   validate(Validation.signupValidation),
