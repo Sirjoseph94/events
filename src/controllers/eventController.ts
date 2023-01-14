@@ -92,11 +92,7 @@ export const updateEventByID = async (
     if (!data) {
       throw { status: 404, reason: "Event does not exist" };
     }
-    const event_types = (payload.event_types || data.event_types).map(type => {
-      return {
-        name: type,
-      };
-    });
+
     const response = await prisma.event.update({
       where: { id },
       data: {
