@@ -9,6 +9,9 @@ export const createEventValidation = z.object({
       description: z.string({
         required_error: "Please tell us a little about the event",
       }),
+      location: z.string({
+        required_error: "Where is it holding?",
+      }),
       start_date: z.preprocess(arg => {
         if (typeof arg == "string" || arg instanceof Date) return new Date(arg);
       }, z.date()),
@@ -50,7 +53,7 @@ export const createEventValidation = z.object({
     ),
 });
 
-export type newEvent = z.infer<typeof createEventValidation>;
+export type newEvent = z.infer<typeof createEventValidation>["body"];
 
 export const updateEventValidation = z.object({
   body: z
@@ -61,6 +64,11 @@ export const updateEventValidation = z.object({
         })
         .optional(),
       description: z
+        .string({
+          required_error: "Please tell us a little about the event",
+        })
+        .optional(),
+      location: z
         .string({
           required_error: "Please tell us a little about the event",
         })
@@ -110,7 +118,7 @@ export const updateEventValidation = z.object({
     ),
 });
 
-export type updateEvent = z.infer<typeof updateEventValidation>;
+export type updateEvent = z.infer<typeof updateEventValidation>["body"];
 
 export const id = z.object({
   params: z.object({

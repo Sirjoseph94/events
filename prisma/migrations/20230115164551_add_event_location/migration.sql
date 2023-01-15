@@ -13,6 +13,7 @@ CREATE TABLE "User" (
 CREATE TABLE "Event" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "name" TEXT NOT NULL,
+    "location" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "start_date" DATETIME NOT NULL,
     "end_date" DATETIME NOT NULL,
@@ -64,22 +65,13 @@ CREATE TABLE "_EventToSpeaker" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "User_id_key" ON "User"("id");
-
--- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Event_id_key" ON "Event"("id");
+CREATE UNIQUE INDEX "EventType_name_key" ON "EventType"("name");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "EventType_id_key" ON "EventType"("id");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Speaker_id_key" ON "Speaker"("id");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Registration_id_key" ON "Registration"("id");
+CREATE UNIQUE INDEX "Speaker_name_key" ON "Speaker"("name");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "_EventToEventType_AB_unique" ON "_EventToEventType"("A", "B");

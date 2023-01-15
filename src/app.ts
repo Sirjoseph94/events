@@ -5,7 +5,7 @@ import swaggerUi from "swagger-ui-express";
 
 import userRouter from "./routes/userRoute";
 import eventRouter from "./routes/eventRoute";
-import swaggerSpecs from "./config/apiDocs";
+import swaggerSpecs from "./config/apispec.json";
 
 const app = express();
 
@@ -22,7 +22,7 @@ app.get("/", (_req, res) => {
   res
     .status(200)
     .send(
-      "<h1>Events App</h1><p><a href='/api-docs'>Click here</a> for the API documentation</p>"
+      "<h1>Events App</h1><p><a href='/api-docs'>Click here</a> for the API documentation.</p>"
     );
 });
 

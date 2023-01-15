@@ -5,15 +5,15 @@ generator client {
   provider = "prisma-client-js"
 }
 
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
-
 // datasource db {
-//   provider = "sqlite"
-//   url      = "file:./dev.db"
+//   provider = "postgresql"
+//   url      = env("DATABASE_URL")
 // }
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
 
 model User {
   id    String  @id  @default(uuid())
@@ -32,6 +32,7 @@ model User {
 model Event {
   id String @id  @default(uuid())
   name String 
+  location String 
   description String
   start_date DateTime
   end_date DateTime
