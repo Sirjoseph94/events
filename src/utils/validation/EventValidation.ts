@@ -129,3 +129,9 @@ export const id = z.object({
       .min(36),
   }),
 });
+
+export const searchEventValidation = z.object({
+  query: z.object({
+    name: z.string({ required_error: "Name of event is required" }),
+  }),
+});
