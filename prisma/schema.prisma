@@ -32,6 +32,7 @@ model User {
 model Event {
   id String @id  @default(uuid())
   name String 
+  location String 
   description String
   start_date DateTime
   end_date DateTime

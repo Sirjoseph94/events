@@ -6,7 +6,6 @@ import * as Validation from "../utils/validation/UserValidation";
 
 const router = Router();
 
-
 router.post(
   "/signup",
   validate(Validation.signupValidation),
@@ -31,14 +30,12 @@ router.post(
     try {
       const payload = req.body;
       const response = await Controller.signInController(payload);
-      return res.status(201).json({ message: "successful", response });
-    } catch (error: CustomError | any) {
-      if (!error.status) {
-        error.status = 500;
-        error.message = "something went wrong";
-      }
-      console.log(error);
-      return res.status(error.status).json({ message: error.message });
+      return res.status(200).json({ message: "successful", response });
+    } catch (error: any) {
+      console.error(error);
+      return res
+        .status(error.status)
+        .json({ status: "failed", reason: error.message });
     }
   }
 );

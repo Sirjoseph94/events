@@ -41,12 +41,11 @@ router
       const { id } = req.params;
       const response = await Controller.viewSingleEvent(id);
       return res.status(200).json({ status: "successful", response });
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
-      return res.status(500).json(error);
+      return res.status(error.status).json(error.message);
     }
   })
-
   .patch(
     auth,
     validate(Validator.updateEventValidation),

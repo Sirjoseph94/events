@@ -20,12 +20,13 @@ export const allEvents = async () => {
   return events;
 };
 
-export const createEvent = async (payload: newEvent["body"], id: string) => {
+export const createEvent = async (payload: newEvent, id: string) => {
   if ((await isAdmin(id)) === true) {
     const response = await prisma.event.create({
       data: {
         name: payload.name,
         description: payload.description,
+        location: payload.location,
         start_date: payload.start_date,
         end_date: payload.end_date,
         isPremium: payload.isPremium,
@@ -79,7 +80,7 @@ export const viewSingleEvent = async (id: string) => {
 export const updateEventByID = async (
   id: string,
   user_id: string,
-  payload: updateEvent["body"]
+  payload: updateEvent
 ) => {
   if ((await isAdmin(user_id)) === true) {
     const data = await prisma.event.findUnique({
@@ -92,16 +93,13 @@ export const updateEventByID = async (
     if (!data) {
       throw { status: 404, reason: "Event does not exist" };
     }
-    const event_types = (payload.event_types || data.event_types).map(type => {
-      return {
-        name: type,
-      };
-    });
+
     const response = await prisma.event.update({
       where: { id },
       data: {
         name: payload?.name || data.name,
         description: payload?.description || data.description,
+        location: payload?.location || data.location,
         start_date: payload?.start_date || data.start_date,
         end_date: payload?.end_date || data.end_date,
         isPremium: payload?.isPremium || data.isPremium,
