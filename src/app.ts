@@ -5,6 +5,7 @@ import swaggerUi from "swagger-ui-express";
 
 import userRouter from "./routes/userRoute";
 import eventRouter from "./routes/eventRoute";
+import registrationRouter from "./routes/registrationRoute";
 import swaggerSpecs from "./config/apispec.json";
 
 const app = express();
@@ -16,6 +17,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/events", eventRouter);
+app.use("/api/v1/registrations", registrationRouter);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
 
 app.get("/", (_req, res) => {
@@ -25,5 +27,7 @@ app.get("/", (_req, res) => {
       "<h1>Events App</h1><p><a href='/api-docs'>Click here</a> for the API documentation.</p>"
     );
 });
+
+
 
 module.exports = app;

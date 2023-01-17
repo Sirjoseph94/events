@@ -136,6 +136,6 @@ export const removeEvent = async (event_id: string, user_id: string) => {
         id: event_id,
       },
     });
+    return "Event removed";
   }
-  return "Event removed";
 };
