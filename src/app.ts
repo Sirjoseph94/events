@@ -28,6 +28,10 @@ app.get("/", (_req, res) => {
     );
 });
 
-
+app.use((_req, res) =>
+  res
+    .status(404)
+    .json({ status: "Not Found", message: "This route does not exist" })
+);
 
 module.exports = app;
