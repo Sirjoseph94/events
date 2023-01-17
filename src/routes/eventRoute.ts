@@ -27,9 +27,11 @@ router.post(
       const id: string = req.user.user_id;
       const response = await Controller.createEvent(payload, id);
       return res.status(201).json({ status: "successful", response });
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
-      return res.status(500).json({ status: "failed", error });
+      return res
+        .status(error.status)
+        .json({ status: "failed", message: error.message });
     }
   }
 );

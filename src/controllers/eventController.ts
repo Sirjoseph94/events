@@ -51,6 +51,7 @@ export const createEvent = async (payload: newEvent, id: string) => {
     });
     return response;
   }
+  throw { status: 403, message: "You are not authorized for this operation" };
 };
 
 export const viewSingleEvent = async (id: string) => {

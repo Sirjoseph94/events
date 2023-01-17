@@ -18,7 +18,7 @@ export const allRegistered = async (user_id: string) => {
         },
       },
     });
-    if (!response) {
+    if (!response.length) {
       throw { status: 404, message: "Nobody is attending any event yet" };
     }
     return response;
@@ -43,5 +43,40 @@ export const registerEvent = async (event_id: string, user_id: string) => {
       event_id,
     },
   });
+  return response;
+};
+
+export const searchRegisteredUserByMail = async (
+  user_email: string,
+  user_id: string
+) => {
+  if ((await isAdmin(user_id)) === false) {
+    throw {
+      status: 401,
+      message: "You are not authorized to perform this operation",
+    };
+  }
+  const response = await prisma.registration.findMany({
+    where: {
+      attendee: {
+        email: user_email,
+      },
+    },
+    select: {
+      attendee: {
+        select: {
+          name: true,
+          email: true,
+        },
+      },
+      event: true,
+    },
+  });
+  if (!response.length) {
+    throw {
+      status: 404,
+      message: `${user_email} has not registered for any Event`,
+    };
+  }
   return response;
 };
