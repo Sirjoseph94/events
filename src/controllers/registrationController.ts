@@ -3,26 +3,44 @@ import isAdmin from "../utils/isAdmin";
 
 export const allRegistered = async (user_id: string) => {
   if ((await isAdmin(user_id)) === true) {
-    const response = await prisma.registration.findMany({
+    const response = await prisma.event.findMany({
       select: {
-        attendee: {
+        name: true,
+        registrations: {
           select: {
-            name: true,
-            email: true,
+            attendee: {
+              select: {
+                name: true,
+                email: true,
+              },
+            },
           },
         },
       },
     });
+    if (!response) {
+      throw { status: 404, message: "Nobody is attending any event yet" };
+    }
     return response;
   }
   throw { status: 401, reason: "User not authorized for this operation" };
 };
 
 export const registerEvent = async (event_id: string, user_id: string) => {
+  const isRegistered = await prisma.registration.findFirst({
+    where: {
+      attendee_id: user_id,
+      event_id,
+    },
+  });
+
+  if (isRegistered) {
+    throw { status: 409, message: `You've already registered for the event` };
+  }
   const response = await prisma.registration.create({
     data: {
       attendee_id: user_id,
-      event_id: event_id,
+      event_id,
     },
   });
   return response;
