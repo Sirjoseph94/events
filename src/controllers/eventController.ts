@@ -51,6 +51,7 @@ export const createEvent = async (payload: newEvent, id: string) => {
     });
     return response;
   }
+  throw { status: 403, message: "You are not authorized for this operation" };
 };
 
 export const viewSingleEvent = async (id: string) => {
@@ -136,6 +137,6 @@ export const removeEvent = async (event_id: string, user_id: string) => {
         id: event_id,
       },
     });
+    return "Event removed";
   }
-  return "Event removed";
 };

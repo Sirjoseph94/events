@@ -6,13 +6,8 @@ const isAdmin = async (id: string) => {
       id,
     },
   });
-  if (user?.isAdmin === false) {
-    throw {
-      status: 401,
-      message: "You are not authorized to Create new event",
-    };
-  }
-  return true;
+  return user?.isAdmin
+   
 };
 
 export default isAdmin;
