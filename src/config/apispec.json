@@ -359,9 +359,9 @@
             "name": "event_id",
             "in": "path",
             "schema": {
-              "type": "string",
-              "required": true
-            }
+              "type": "string"
+            },
+            "required": true
           }
         ],
         "responses": {
