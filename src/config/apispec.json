@@ -123,7 +123,6 @@
               },
               "example": {
                 "name": "updated stuff 3",
-                "description": "here is a little event info",
                 "start_date": "2023-04-30T02:15:12.356Z",
                 "end_date": "2023-05-30T02:15:12.356Z",
                 "isPremium": false,
@@ -237,7 +236,7 @@
               "schema": {
                 "$ref": "#/components/schemas/Event",
                 "example": {
-                  "name": "updated stuff 3",
+                  "name": "updated stuff",
                   "start_date": "2023-04-30T02:15:12.356Z",
                   "end_date": "2023-05-30T02:15:12.356Z",
                   "isPremium": false,
@@ -281,6 +280,98 @@
                   "type": "object"
                 },
                 "example": "{\r\n    \"status\": \"successful\",\r\n    \"response\": {\r\n        \"id\": \"4986b3a3-5ddd-4ac2-8b27-c24af2cc0ae9\",\r\n        \"name\": \"updated\",\r\n        \"description\": \"Event like no other\",\r\n        \"start_date\": \"2023-04-30T02:15:12.356Z\",\r\n        \"end_date\": \"2023-05-30T02:15:12.356Z\",\r\n        \"isPremium\": true,\r\n        \"author_id\": \"ab845850-925e-4138-91b1-f6d54d377cbb\",\r\n        \"createdAt\": \"2022-12-31T02:32:30.617Z\",\r\n        \"updatedAT\": \"2023-01-13T21:07:17.244Z\"\r\n    }\r\n}"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/registrations": {
+      "get": {
+        "tags": ["registrations"],
+        "summary": "Get all registration",
+        "description": "Retrieve all the users registration records",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/registrations/search": {
+      "get": {
+        "tags": ["registrations"],
+        "summary": "Search event with user email",
+        "description": "Retrieve  user registration records by email",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "email",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/registrations/{event_id}": {
+      "post": {
+        "tags": ["registrations"],
+        "summary": "register for event",
+        "description": "You have to be logged in to register for an event",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "event_id",
+            "in": "path",
+            "schema": {
+              "type": "string",
+              "required": true
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
               }
             }
           }
