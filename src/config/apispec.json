@@ -47,7 +47,17 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/User"
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "description": "successful"
+                    },
+                    "token": {
+                      "type": "string",
+                      "description": "jwt token"
+                    }
+                  }
                 }
               }
             }
@@ -84,7 +94,17 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/User"
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "description": "successful"
+                    },
+                    "token": {
+                      "type": "string",
+                      "description": "jwt token"
+                    }
+                  }
                 }
               }
             }
@@ -234,24 +254,24 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Event",
-                "example": {
-                  "name": "updated stuff",
-                  "start_date": "2023-04-30T02:15:12.356Z",
-                  "end_date": "2023-05-30T02:15:12.356Z",
-                  "isPremium": false,
-                  "speakers": [
-                    {
-                      "name": "Judge Bush",
-                      "designation": "President"
-                    },
-                    {
-                      "name": "Jane Lane",
-                      "designation": "VP"
-                    }
-                  ],
-                  "event_types": ["stuff", "new"]
-                }
+                "$ref": "#/components/schemas/Event"
+              },
+              "example": {
+                "name": "updated stuff",
+                "start_date": "2023-04-30T02:15:12.356Z",
+                "end_date": "2023-05-30T02:15:12.356Z",
+                "isPremium": false,
+                "speakers": [
+                  {
+                    "name": "Judge Bush",
+                    "designation": "President"
+                  },
+                  {
+                    "name": "Jane Lane",
+                    "designation": "VP"
+                  }
+                ],
+                "event_types": ["stuff", "new"]
               }
             }
           }
@@ -411,12 +431,21 @@
           "password": {
             "type": "string",
             "description": "user password"
+          },
+          "confirmPassword": {
+            "type": "string",
+            "description": "user password again"
+          },
+          "isAdmin": {
+            "type": "boolean",
+            "description": "admin user or not"
           }
         },
         "example": {
           "name": "John Doe",
           "email": "john@mail.com",
-          "password": "pass123"
+          "password": "pass123",
+          "confirmPassword": "pass123"
         }
       },
       "Event": {

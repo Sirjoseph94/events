@@ -17,7 +17,7 @@ export const signupValidation = z.object({
         })
         .min(6, "Password must be at least 6 characters"),
       confirmPassword: z.string().min(6),
-      isAdmin: z.boolean(),
+      isAdmin: z.boolean().optional(),
     })
     .superRefine(({ confirmPassword, password }, ctx) => {
       if (confirmPassword !== password) {

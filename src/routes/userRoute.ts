@@ -12,7 +12,6 @@ router.post(
   async (req, res) => {
     try {
       const payload = req.body;
-      console.log(payload);
       const response = await Controller.signUpController(payload);
       return res.status(201).json({ message: "successful", response });
     } catch (error: any) {
