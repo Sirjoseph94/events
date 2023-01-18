@@ -7,7 +7,7 @@
     "dev": "nodemon ./bin/www",
     "compile": "npx tsc",
     "migrate:dev": "npx prisma migrate dev",
-    "deploy": "npx tsc && npx prisma migrate deploy && npx prisma generate"
+    "deploy": " npx prisma migrate deploy && npx prisma generate && npx tsc"
   },
   "dependencies": {
     "@prisma/client": "^4.8.0",
