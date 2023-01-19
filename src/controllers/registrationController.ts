@@ -1,5 +1,7 @@
 import prisma from "../config/prismaClient";
+import dateFormat from "../utils/formatDateTime";
 import isAdmin from "../utils/isAdmin";
+import sendMail from "../utils/mailer";
 
 export const allRegistered = async (user_id: string) => {
   if ((await isAdmin(user_id)) === true) {
@@ -42,6 +44,25 @@ export const registerEvent = async (event_id: string, user_id: string) => {
       attendee_id: user_id,
       event_id,
     },
+    select: {
+      attendee: true,
+      event: true,
+    },
+  });
+  sendMail({
+    email: response.attendee.email,
+    subject: `${response.event.name}Registration Successful`,
+    message: `Dear ${response.attendee.name},
+
+    Here is your event details:
+
+    Name: ${response.event.name}
+    Description: ${response.event.description}
+    Location: ${response.event.location}
+    Date: ${dateFormat(new Date(response.event.start_date))} to ${dateFormat(
+      new Date(response.event.end_date)
+    )}
+     `,
   });
   return response;
 };

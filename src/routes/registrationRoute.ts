@@ -15,9 +15,9 @@ router.get("/", auth, async (req: userRequest, res) => {
     const user_id: string = req.user.user_id;
     const response = await Controller.allRegistered(user_id);
     return res.status(200).json({ status: "successful", response });
-  } catch (error) {
+  } catch (error: any) {
     console.error(error);
-    return res.status(500).json(error);
+    return res.status(error.status).json(error.message);
   }
 });
 
