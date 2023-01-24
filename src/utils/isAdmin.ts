@@ -6,8 +6,7 @@ const isAdmin = async (id: string) => {
       id,
     },
   });
-  return user?.isAdmin
-   
+  return user?.isAdmin;
 };
 
 export default isAdmin;

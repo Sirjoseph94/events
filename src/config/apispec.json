@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "https://events-be.onrender.com/api/v1",
+      "url": "https://sore-jade-fox-hat.cyclic.app/api/v1",
       "description": "Live server"
     },
     {

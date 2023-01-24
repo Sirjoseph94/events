@@ -5,6 +5,7 @@
   "scripts": {
     "start": "node ./bin/www",
     "dev": "nodemon ./bin/www",
+    "build": "npx tsc",
     "compile": "npx tsc",
     "migrate:dev": "npx prisma migrate dev",
     "deploy": " npx prisma migrate deploy && npx prisma generate && npx tsc"
