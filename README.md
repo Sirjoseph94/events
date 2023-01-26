@@ -19,7 +19,7 @@
   </a> -->
 
 <h3 align="center">Events App</h3>
-
+[![Node.js CI](https://github.com/Sirjoseph94/events/actions/workflows/node.js.yml/badge.svg)](https://github.com/Sirjoseph94/events/actions/workflows/node.js.yml)
   <p align="center">
     The backend of an Event app built with Nodejs
     <br />
