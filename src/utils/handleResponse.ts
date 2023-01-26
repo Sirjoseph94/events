@@ -1,17 +1,14 @@
-export function success(data: Record<string, any>) {
-  return {
+import { Response } from "express";
+export function success(res: Response, statusCode:number, data: Record<string, any>) {
+  return res.status(statusCode).json({
     status: "success",
-    response: {
-      ...data,
-    },
-  };
+    message: data,
+  });
 }
 
-export function failed(data: Record<string, any>) {
-  return {
-    status: "failed",
-    reason: {
-      ...data,
-    },
-  };
+export function failed(res: any, statusCode:number, data: Record<string, any>) {
+  return res.status(statusCode).json({
+    status: "error",
+    message: data,
+  });
 }

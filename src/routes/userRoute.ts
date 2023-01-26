@@ -1,8 +1,8 @@
 import { Router } from "express";
 import * as Controller from "../controllers/userController";
-import { CustomError } from "../types/express";
 import validate from "../middleware/validation";
 import * as Validation from "../utils/validation/UserValidation";
+import { failed, success } from "../utils/handleResponse";
 
 const router = Router();
 
@@ -12,12 +12,10 @@ router.post(
   async (req, res) => {
     try {
       const payload = req.body;
-      const response = await Controller.signUpController(payload);
-      return res.status(201).json({ message: "successful", response });
+      const data = await Controller.signUpController(payload);
+      return success(res, data.statusCode, data.message);
     } catch (error: any) {
-      return res
-        .status(error.status)
-        .json({ status: "failed", reason: error.message });
+      return failed(res, error.statusCode, error.message);
     }
   }
 );
