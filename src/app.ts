@@ -7,6 +7,7 @@ import userRouter from "./routes/userRoute";
 import eventRouter from "./routes/eventRoute";
 import registrationRouter from "./routes/registrationRoute";
 import swaggerSpecs from "./config/apispec.json";
+import sendMail from "./utils/mailer";
 
 const app = express();
 
