@@ -17,6 +17,6 @@ export function failed(
 ) {
   return res.status(statusCode).json({
     status: "error",
-    message: data,
+    reason: data,
   });
 }
