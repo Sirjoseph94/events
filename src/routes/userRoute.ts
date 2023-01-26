@@ -26,13 +26,11 @@ router.post(
   async (req, res) => {
     try {
       const payload = req.body;
-      const response = await Controller.signInController(payload);
-      return res.status(200).json({ message: "successful", response });
+      const data = await Controller.signInController(payload);
+      return success(res, data.statusCode, data.message);
     } catch (error: any) {
       console.error(error);
-      return res
-        .status(error.status)
-        .json({ status: "failed", reason: error.message });
+       return failed(res, error.statusCode, error.message);
     }
   }
 );
