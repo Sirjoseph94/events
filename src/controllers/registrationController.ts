@@ -21,11 +21,11 @@ export const allRegistered = async (user_id: string) => {
       },
     });
     if (!response.length) {
-      throw { status: 404, message: "Nobody is attending any event yet" };
+      throw { statusCode: 404, message: "Nobody is attending any event yet" };
     }
-    return response;
+    return { statusCode: 200, message: response };
   }
-  throw { status: 401, reason: "User not authorized for this operation" };
+  throw { statusCode: 401, message: "User not authorized for this operation" };
 };
 
 export const registerEvent = async (event_id: string, user_id: string) => {
@@ -37,7 +37,10 @@ export const registerEvent = async (event_id: string, user_id: string) => {
   });
 
   if (isRegistered) {
-    throw { status: 409, message: `You've already registered for the event` };
+    throw {
+      statusCode: 409,
+      message: `You've already registered for the event`,
+    };
   }
   const response = await prisma.registration.create({
     data: {
@@ -64,7 +67,7 @@ export const registerEvent = async (event_id: string, user_id: string) => {
     )}
      `,
   });
-  return response;
+  return { statusCode: 201, message: response };
 };
 
 export const searchRegisteredUserByMail = async (
@@ -73,7 +76,7 @@ export const searchRegisteredUserByMail = async (
 ) => {
   if ((await isAdmin(user_id)) === false) {
     throw {
-      status: 401,
+      statusCode: 401,
       message: "You are not authorized to perform this operation",
     };
   }
@@ -95,9 +98,9 @@ export const searchRegisteredUserByMail = async (
   });
   if (!response.length) {
     throw {
-      status: 404,
+      statusCode: 404,
       message: `${user_email} has not registered for any Event`,
     };
   }
-  return response;
+  return { statusCode: 200, message: response };
 };

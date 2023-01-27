@@ -15,9 +15,9 @@ export const allEvents = async () => {
     },
   });
   if (!events || events.length < 1) {
-    return "Its pretty quiet in here. No event";
+    return { statusCode: 200, message: "Its pretty quiet in here. No event" };
   }
-  return events;
+  return { statusCode: 200, message: events };
 };
 
 export const createEvent = async (payload: newEvent, id: string) => {
@@ -49,9 +49,12 @@ export const createEvent = async (payload: newEvent, id: string) => {
         },
       },
     });
-    return response;
+    return { statusCode: 201, message: response };
   }
-  throw { status: 403, message: "You are not authorized for this operation" };
+  throw {
+    statusCode: 403,
+    message: "You are not authorized for this operation",
+  };
 };
 
 export const viewSingleEvent = async (id: string) => {
@@ -71,11 +74,11 @@ export const viewSingleEvent = async (id: string) => {
   });
   if (!event) {
     throw {
-      status: "404",
+      statusCode: "404",
       message: `There is no event with the id ${id}`,
     };
   }
-  return event;
+  return { statusCode: 200, message: event };
 };
 
 export const updateEventByID = async (
@@ -92,7 +95,7 @@ export const updateEventByID = async (
       },
     });
     if (!data) {
-      throw { status: 404, reason: "Event does not exist" };
+      throw { statusCode: 404, message: "Event does not exist" };
     }
 
     const response = await prisma.event.update({
@@ -126,8 +129,9 @@ export const updateEventByID = async (
         },
       },
     });
-    return response;
+    return { statusCode: 200, message: response };
   }
+   return { statusCode: 401, message: "You're not authorized to perform this operation" };
 };
 
 export const removeEvent = async (event_id: string, user_id: string) => {
@@ -137,6 +141,7 @@ export const removeEvent = async (event_id: string, user_id: string) => {
         id: event_id,
       },
     });
-    return "Event removed";
+    return { statusCode: 204, message: "Event removed" };
   }
+  return {statusCode: 401, message: "You are not authorized to perform this operation"}
 };

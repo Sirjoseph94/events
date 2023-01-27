@@ -4,16 +4,17 @@ import * as Validator from "../utils/validation/EventValidation";
 import { auth } from "../middleware/auth";
 import validate from "../middleware/validation";
 import { userRequest } from "../types/express";
+import { failed, success } from "../utils/handleResponse";
 
 const router = Router();
 
 router.get("/", async (_req, res) => {
   try {
-    const response = await Controller.allEvents();
-    return res.status(200).json({ status: "successful", response });
-  } catch (error) {
+    const data = await Controller.allEvents();
+    return success(res, data.statusCode, data.message);
+  } catch (error: any) {
     console.error(error);
-    return res.status(500).json(error);
+    return failed(res, error.statusCode, error.message);
   }
 });
 
@@ -25,13 +26,11 @@ router.post(
     try {
       const payload = req.body;
       const id: string = req.user.user_id;
-      const response = await Controller.createEvent(payload, id);
-      return res.status(201).json({ status: "successful", response });
+      const data = await Controller.createEvent(payload, id);
+      return success(res, data.statusCode, data.message);
     } catch (error: any) {
       console.error(error);
-      return res
-        .status(error.status)
-        .json({ status: "failed", message: error.message });
+      return failed(res, error.statusCode, error.message);
     }
   }
 );
@@ -41,11 +40,11 @@ router
   .get(validate(Validator.id), async (req, res) => {
     try {
       const { id } = req.params;
-      const response = await Controller.viewSingleEvent(id);
-      return res.status(200).json({ status: "successful", response });
+      const data = await Controller.viewSingleEvent(id);
+      return success(res, data.statusCode, data.message);
     } catch (error: any) {
       console.error(error);
-      return res.status(error.status).json(error.message);
+      return failed(res, error.statusCode, error.message);
     }
   })
   .patch(
@@ -56,11 +55,11 @@ router
         const { id } = req.params;
         const { user_id } = req.user;
         const payload = req.body;
-        const response = await Controller.updateEventByID(id, user_id, payload);
-        return res.status(200).json({ status: "successful", response });
-      } catch (error) {
+        const data = await Controller.updateEventByID(id, user_id, payload);
+        return success(res, data.statusCode, data.message);
+      } catch (error: any) {
         console.error(error);
-        return res.status(500).json(error);
+        return failed(res, error.statusCode, error.message);
       }
     }
   )
@@ -68,11 +67,11 @@ router
     try {
       const { user_id } = req.user;
       const event_id = req.params.id;
-      const response = await Controller.removeEvent(event_id, user_id);
-      return res.status(204).json({ status: "successful", response });
-    } catch (error) {
+      const data = await Controller.removeEvent(event_id, user_id);
+      return success(res, data.statusCode, data.message);
+    } catch (error: any) {
       console.error(error);
-      return res.status(500).json(error);
+      return failed(res, error.statusCode, error.message);
     }
   });
 export default router;
