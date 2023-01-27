@@ -19,7 +19,9 @@
   </a> -->
 
 <h3 align="center">Events App</h3>
-
+  
+[![Node.js CI](https://github.com/Sirjoseph94/events/actions/workflows/node.js.yml/badge.svg)](https://github.com/Sirjoseph94/events/actions/workflows/node.js.yml)
+ 
   <p align="center">
     The backend of an Event app built with Nodejs
     <br />
@@ -113,7 +115,7 @@ This is an example of how to list things you need to use the software and how to
 
 Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+_For more examples, please refer to the [Documentation](https://sore-jade-fox-hat.cyclic.app/)_
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -146,19 +148,19 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 ## Contact
 
-Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email@email_client.com
+Your Name - [@twitter_handle](https://twitter.com/joseph__ero)
 
 Project Link: [https://github.com/Sirjoseph94/Events](https://github.com/Sirjoseph94/Events)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- ACKNOWLEDGMENTS -->
-
+<!-- 
 ## Acknowledgments
 
 - []()
 - []()
-- []()
+- []() -->
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
