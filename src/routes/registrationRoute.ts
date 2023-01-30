@@ -7,17 +7,18 @@ import {
   registerationValidation,
   searchRegisterationValidation,
 } from "../utils/validation/RegistrationValidation";
+import { success,failed } from "../utils/handleResponse";
 
 const router = Router();
 
 router.get("/", auth, async (req: userRequest, res) => {
   try {
     const user_id: string = req.user.user_id;
-    const response = await Controller.allRegistered(user_id);
-    return res.status(200).json({ status: "successful", response });
-  } catch (error: any) {
+    const data = await Controller.allRegistered(user_id);
+   return success(res, data.statusCode, data.message);
+  } catch (error:any) {
     console.error(error);
-    return res.status(error.status).json(error.message);
+    return failed(res, error.statusCode, error.message);
   }
 });
 
@@ -29,11 +30,11 @@ router.post(
     try {
       const event_id = req.params.event_id;
       const user_id: string = req.user.user_id;
-      const response = await Controller.registerEvent(event_id, user_id);
-      return res.status(201).json({ status: "successful", response });
+      const data = await Controller.registerEvent(event_id, user_id);
+      return success(res, data.statusCode, data.message);
     } catch (error: any) {
       console.error(error);
-      return res.status(error.status).json(error.message);
+      return failed(res, error.statusCode, error.message);
     }
   }
 );
@@ -46,14 +47,14 @@ router.get(
     try {
       const email = req.query.email as string;
       const user_id: string = req.user.user_id;
-      const response = await Controller.searchRegisteredUserByMail(
+      const data = await Controller.searchRegisteredUserByMail(
         email,
         user_id
       );
-      return res.status(200).json({ status: "successful", response });
+      return success(res, data.statusCode, data.message);
     } catch (error: any) {
       console.error(error);
-      return res.status(error.status).json(error.message);
+      return failed(res, error.statusCode, error.message);
     }
   }
 );

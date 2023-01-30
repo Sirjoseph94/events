@@ -10,7 +10,7 @@ export const signUpController = async (payload: Record<string, any>) => {
   });
   if (user) {
     throw {
-      status: 400,
+      statusCode: 400,
       message: `User with the email ${user.email} already exist, kindly sign in`,
     };
   }
@@ -23,7 +23,7 @@ export const signUpController = async (payload: Record<string, any>) => {
     },
   });
 
-  return generateAccessToken(response.id);
+  return {statusCode:200, message:{token: generateAccessToken(response.id)}};
 };
 
 export const signInController = async (payload: Record<string, any>) => {
@@ -34,13 +34,16 @@ export const signInController = async (payload: Record<string, any>) => {
   });
   if (!user) {
     throw {
-      status: 404,
+      statusCode: 404,
       message: `We have no record of the email ${payload.email}, please sign up`,
     };
   }
   const match = await decryptPassword(payload.password, user.password);
   if (!match) {
-    throw { status: 403, message: "Password is not correct" };
+    throw { statusCode: 403, message: "Password is not correct" };
   }
-  return generateAccessToken(user.id);
+  return {
+    statusCode: 200,
+    message: { token: generateAccessToken(user.id) },
+  };
 };
