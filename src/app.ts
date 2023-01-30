@@ -6,6 +6,7 @@ import swaggerUi from "swagger-ui-express";
 import userRouter from "./routes/userRoute";
 import eventRouter from "./routes/eventRoute";
 import registrationRouter from "./routes/registrationRoute";
+import speakerRouter from "./routes/speakerRoute"
 import swaggerSpecs from "./config/apispec.json";
 import sendMail from "./utils/mailer";
 
@@ -18,6 +19,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/events", eventRouter);
+app.use("/api/v1/speakers", speakerRouter);
 app.use("/api/v1/registrations", registrationRouter);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
 
