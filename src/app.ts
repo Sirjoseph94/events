@@ -2,15 +2,17 @@ import express from "express";
 import logger from "morgan";
 import helmet from "helmet";
 import swaggerUi from "swagger-ui-express";
+import cors from "cors";
 
 import userRouter from "./routes/userRoute";
 import eventRouter from "./routes/eventRoute";
 import registrationRouter from "./routes/registrationRoute";
 import swaggerSpecs from "./config/apispec.json";
-import sendMail from "./utils/mailer";
+
 
 const app = express();
 
+app.use(cors())
 app.use(helmet());
 app.use(logger("dev"));
 app.use(express.json());
