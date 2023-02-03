@@ -1,8 +1,8 @@
 import { Router } from "express";
-import * as Controller from "../controllers/userController";
-import validate from "../middleware/validation";
-import * as Validation from "../utils/validation/UserValidation";
-import { failed, success } from "../utils/handleResponse";
+import * as Controller from "../../controllers/userController";
+import validate from "../../middleware/validation";
+import { failed, success } from "../../utils/handleResponse";
+import * as Validation from "../../utils/validation/UserValidation";
 
 const router = Router();
 
@@ -30,7 +30,7 @@ router.post(
       return success(res, data.statusCode, data.message);
     } catch (error: any) {
       console.error(error);
-       return failed(res, error.statusCode, error.message);
+      return failed(res, error.statusCode, error.message);
     }
   }
 );

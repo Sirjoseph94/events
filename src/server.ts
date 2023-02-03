@@ -1,27 +1,29 @@
-import express from "express";
-import logger from "morgan";
-import helmet from "helmet";
-import swaggerUi from "swagger-ui-express";
 import cors from "cors";
+import express from "express";
+import helmet from "helmet";
+import logger from "morgan";
+import swaggerUi from "swagger-ui-express";
 
-import userRouter from "./routes/userRoute";
-import eventRouter from "./routes/eventRoute";
-import registrationRouter from "./routes/registrationRoute";
 import swaggerSpecs from "./config/apispec.json";
-
+import Routes from "./routes";
 
 const app = express();
 
-app.use(cors())
+const port = process.env.PORT;
+
+app.use(cors());
 app.use(helmet());
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use("/api/v1/user", userRouter);
-app.use("/api/v1/events", eventRouter);
-app.use("/api/v1/registrations", registrationRouter);
+Routes(app);
+
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
+
+app.listen(port || 3000, () => {
+  console.log(`App starting in development mode on port ${port}`);
+});
 
 app.get("/", (_req, res) => {
   res

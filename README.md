@@ -17,7 +17,6 @@
   <!-- <a href="https://github.com/Sirjoseph94/Events">
     <img src="images/logo.png" alt="Logo" width="80" height="80">
   </a> -->
-
 <h3 align="center">Events App</h3>
   
 [![Node.js CI](https://github.com/Sirjoseph94/events/actions/workflows/node.js.yml/badge.svg)](https://github.com/Sirjoseph94/events/actions/workflows/node.js.yml)
@@ -155,7 +154,7 @@ Project Link: [https://github.com/Sirjoseph94/Events](https://github.com/Sirjose
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- ACKNOWLEDGMENTS -->
-<!-- 
+<!--
 ## Acknowledgments
 
 - []()

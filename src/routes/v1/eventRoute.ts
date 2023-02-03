@@ -1,10 +1,10 @@
 import { Router } from "express";
-import * as Controller from "../controllers/eventController";
-import * as Validator from "../utils/validation/EventValidation";
-import { auth } from "../middleware/auth";
-import validate from "../middleware/validation";
-import { userRequest } from "../types/express";
-import { failed, success } from "../utils/handleResponse";
+import * as Controller from "../../controllers/eventController";
+import { auth } from "../../middleware/auth";
+import validate from "../../middleware/validation";
+import { userRequest } from "../../types/express";
+import { failed, success } from "../../utils/handleResponse";
+import * as Validator from "../../utils/validation/EventValidation";
 
 const router = Router();
 
