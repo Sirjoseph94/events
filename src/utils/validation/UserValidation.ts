@@ -3,14 +3,20 @@ import z from "zod";
 export const signupValidation = z.object({
   body: z
     .object({
+      name: z
+        .string({
+          required_error: "Name is required",
+          invalid_type_error: "Name must be string",
+        })
+        .min(3, { message: "must be at least 3 characters long" })
+        .regex(/(^[a-zA-Z][a-zA-Z\s]{0,20}[a-zA-Z]$)/, {
+          message: "Must be valid Alphabet",
+        }),
       email: z
         .string({
           required_error: "Email is required",
         })
         .email("Not a valid email"),
-      name: z.string({
-        required_error: "Name is required",
-      }),
       password: z
         .string({
           required_error: "Enter valid password",

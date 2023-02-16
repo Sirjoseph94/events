@@ -15,8 +15,8 @@ route.post(
   async (req: userRequest, res) => {
     try {
       const payload = req.body;
-      const user_id = req.user.user_id;
-      const data = await createSpeaker(payload, user_id);
+      const userId = req.user.userId;
+      const data = await createSpeaker(payload, userId);
       return success(res, data.statusCode, data.message);
     } catch (error: any) {
       return failed(res, error.statusCode, error.message);

@@ -131,5 +131,3 @@ dist
 
 # db
 prisma/dev.db
-
-frontend

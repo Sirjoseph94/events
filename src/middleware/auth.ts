@@ -21,10 +21,10 @@ export async function auth(
       return res.status(401).send("Unauthorized");
     }
 
-    const { user_id } = decoded as { [key: string]: string };
+    const { userId } = decoded as { [key: string]: string };
     const user = await prisma.user.findUnique({
       where: {
-        id: user_id,
+        id: userId,
       },
     });
 

@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -8,6 +5,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 
@@ -19,7 +17,7 @@ model User {
   isAdmin Boolean @default(false)
 
   createdAt DateTime @default(now())
-  updatedAT DateTime @updatedAt
+  updatedAt DateTime @updatedAt
 
   events Event[]
   registrations Registration[]
@@ -30,17 +28,17 @@ model Event {
   name String 
   location String 
   description String
-  start_date DateTime
-  end_date DateTime
+  startDate DateTime
+  endDate DateTime
   isPremium Boolean
 
-  author User @relation(fields: [author_id], references: [id])
-  author_id String
+  author User @relation(fields: [authorId], references: [id])
+  authorId String
 
   createdAt DateTime @default(now())
-  updatedAT DateTime @updatedAt
+  updatedAt DateTime @updatedAt
 
-  event_types EventType []
+  eventTypes EventType []
   speakers Speaker[]
   registrations Registration[]
 }
@@ -57,15 +55,15 @@ model Speaker {
   name String @unique
   designation String
   createdAt DateTime @default(now())
-  updatedAT DateTime @updatedAt
+  updatedAt DateTime @updatedAt
 
   events Event[]
 }
 
 model Registration {
   id String @id  @default(uuid())
-  attendee User @relation(fields: [attendee_id], references: [id])
-  attendee_id String
-  event Event @relation(fields: [event_id], references: [id])
-  event_id String
+  attendee User @relation(fields: [attendeeId], references: [id])
+  attendeeId String
+  event Event @relation(fields: [eventId], references: [id])
+  eventId String
 }

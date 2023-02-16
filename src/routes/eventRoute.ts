@@ -25,7 +25,7 @@ router.post(
   async (req: userRequest, res) => {
     try {
       const payload = req.body;
-      const id: string = req.user.user_id;
+      const id: string = req.user.userId;
       const data = await Controller.createEvent(payload, id);
       return success(res, data.statusCode, data.message);
     } catch (error: any) {
@@ -53,9 +53,9 @@ router
     async (req: userRequest, res) => {
       try {
         const { id } = req.params;
-        const { user_id } = req.user;
+        const { userId } = req.user;
         const payload = req.body;
-        const data = await Controller.updateEventByID(id, user_id, payload);
+        const data = await Controller.updateEventByID(id, userId, payload);
         return success(res, data.statusCode, data.message);
       } catch (error: any) {
         console.error(error);
@@ -65,9 +65,9 @@ router
   )
   .delete(auth, validate(Validator.id), async (req: userRequest, res) => {
     try {
-      const { user_id } = req.user;
+      const { userId } = req.user;
       const event_id = req.params.id;
-      const data = await Controller.removeEvent(event_id, user_id);
+      const data = await Controller.removeEvent(event_id, userId);
       return success(res, data.statusCode, data.message);
     } catch (error: any) {
       console.error(error);
