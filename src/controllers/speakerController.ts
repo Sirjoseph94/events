@@ -2,8 +2,8 @@ import prisma from "../config/prismaClient";
 import isAdmin from "../utils/isAdmin";
 import { speakerType } from "../utils/validation/SpeakerValidation";
 
-export const createSpeaker = async (data: speakerType, user_id: string) => {
-  if (await isAdmin(user_id)) {
+export const createSpeaker = async (data: speakerType, userId: string) => {
+  if (await isAdmin(userId)) {
     try {
       const exist = await prisma.speaker.findFirst({
         where: {

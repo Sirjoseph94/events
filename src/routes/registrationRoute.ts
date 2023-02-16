@@ -13,8 +13,8 @@ const router = Router();
 
 router.get("/", auth, async (req: userRequest, res) => {
   try {
-    const user_id: string = req.user.user_id;
-    const data = await Controller.allRegistered(user_id);
+    const userId: string = req.user.userId;
+    const data = await Controller.allRegistered(userId);
    return success(res, data.statusCode, data.message);
   } catch (error:any) {
     console.error(error);
@@ -23,14 +23,14 @@ router.get("/", auth, async (req: userRequest, res) => {
 });
 
 router.post(
-  "/:event_id",
+  "/:eventId",
   auth,
   validate(registerationValidation),
   async (req: userRequest, res) => {
     try {
-      const event_id = req.params.event_id;
-      const user_id: string = req.user.user_id;
-      const data = await Controller.registerEvent(event_id, user_id);
+      const eventId = req.params.eventId;
+      const userId: string = req.user.userId;
+      const data = await Controller.registerEvent(eventId, userId);
       return success(res, data.statusCode, data.message);
     } catch (error: any) {
       console.error(error);
@@ -46,10 +46,10 @@ router.get(
   async (req: userRequest, res) => {
     try {
       const email = req.query.email as string;
-      const user_id: string = req.user.user_id;
+      const userId: string = req.user.userId;
       const data = await Controller.searchRegisteredUserByMail(
         email,
-        user_id
+        userId
       );
       return success(res, data.statusCode, data.message);
     } catch (error: any) {

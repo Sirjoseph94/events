@@ -12,18 +12,18 @@ export const createEventValidation = z.object({
       location: z.string({
         required_error: "Where is it holding?",
       }),
-      start_date: z.preprocess(arg => {
+      startDate: z.preprocess(arg => {
         if (typeof arg == "string" || arg instanceof Date) return new Date(arg);
       }, z.date()),
 
-      end_date: z.preprocess(arg => {
+      endDate: z.preprocess(arg => {
         if (typeof arg == "string" || arg instanceof Date) return new Date(arg);
       }, z.date()),
 
       isPremium: z.boolean({
         required_error: "Is this a premium event?",
       }),
-      event_types: z
+      eventTypes: z
         .string({
           required_error: "What is the event type?",
         })
@@ -44,8 +44,8 @@ export const createEventValidation = z.object({
       ),
     })
     .refine(
-      ({ start_date, end_date }) =>
-        start_date < end_date && start_date >= new Date(),
+      ({ startDate, endDate }) =>
+        startDate < endDate && startDate >= new Date(),
       {
         message:
           "Start date must be before end date and Start date should be in the future",
@@ -73,11 +73,11 @@ export const updateEventValidation = z.object({
           required_error: "Please tell us a little about the event",
         })
         .optional(),
-      start_date: z.preprocess(arg => {
+      startDate: z.preprocess(arg => {
         if (typeof arg == "string" || arg instanceof Date) return new Date(arg);
       }, z.date()),
 
-      end_date: z.preprocess(arg => {
+      endDate: z.preprocess(arg => {
         if (typeof arg == "string" || arg instanceof Date) return new Date(arg);
       }, z.date()),
 
@@ -86,7 +86,7 @@ export const updateEventValidation = z.object({
           required_error: "Is this a premium event?",
         })
         .optional(),
-      event_types: z
+      eventTypes: z
         .string({
           required_error: "What is the event type?",
         })
@@ -109,8 +109,8 @@ export const updateEventValidation = z.object({
         .optional(),
     })
     .refine(
-      ({ start_date, end_date }) =>
-        start_date < end_date && start_date >= new Date(),
+      ({ startDate, endDate }) =>
+        startDate < endDate && startDate >= new Date(),
       {
         message:
           "Start date must be before end date and Start date should be in the future",

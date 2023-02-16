@@ -3,8 +3,8 @@ import dateFormat from "../utils/formatDateTime";
 import isAdmin from "../utils/isAdmin";
 import sendMail from "../utils/mailer";
 
-export const allRegistered = async (user_id: string) => {
-  if ((await isAdmin(user_id)) === true) {
+export const allRegistered = async (userId: string) => {
+  if ((await isAdmin(userId)) === true) {
     const response = await prisma.event.findMany({
       select: {
         name: true,
@@ -28,11 +28,11 @@ export const allRegistered = async (user_id: string) => {
   throw { statusCode: 401, message: "User not authorized for this operation" };
 };
 
-export const registerEvent = async (event_id: string, user_id: string) => {
+export const registerEvent = async (eventId: string, userId: string) => {
   const isRegistered = await prisma.registration.findFirst({
     where: {
-      attendee_id: user_id,
-      event_id,
+      attendeeId: userId,
+      eventId,
     },
   });
 
@@ -44,8 +44,8 @@ export const registerEvent = async (event_id: string, user_id: string) => {
   }
   const response = await prisma.registration.create({
     data: {
-      attendee_id: user_id,
-      event_id,
+      attendeeId: userId,
+      eventId,
     },
     select: {
       attendee: true,
@@ -62,8 +62,8 @@ export const registerEvent = async (event_id: string, user_id: string) => {
     Name: ${response.event.name}
     Description: ${response.event.description}
     Location: ${response.event.location}
-    Date: ${dateFormat(new Date(response.event.start_date))} to ${dateFormat(
-      new Date(response.event.end_date)
+    Date: ${dateFormat(new Date(response.event.startDate))} to ${dateFormat(
+      new Date(response.event.endDate)
     )}
      `,
   });
@@ -71,10 +71,10 @@ export const registerEvent = async (event_id: string, user_id: string) => {
 };
 
 export const searchRegisteredUserByMail = async (
-  user_email: string,
-  user_id: string
+  userEmail: string,
+  userId: string
 ) => {
-  if ((await isAdmin(user_id)) === false) {
+  if ((await isAdmin(userId)) === false) {
     throw {
       statusCode: 401,
       message: "You are not authorized to perform this operation",
@@ -83,7 +83,7 @@ export const searchRegisteredUserByMail = async (
   const response = await prisma.registration.findMany({
     where: {
       attendee: {
-        email: user_email,
+        email: userEmail,
       },
     },
     select: {
@@ -99,7 +99,7 @@ export const searchRegisteredUserByMail = async (
   if (!response.length) {
     throw {
       statusCode: 404,
-      message: `${user_email} has not registered for any Event`,
+      message: `${userEmail} has not registered for any Event`,
     };
   }
   return { statusCode: 200, message: response };

@@ -5,7 +5,7 @@ import { newEvent, updateEvent } from "../utils/validation/EventValidation";
 export const allEvents = async () => {
   const events = await prisma.event.findMany({
     include: {
-      event_types: true,
+      eventTypes: true,
       author: {
         select: {
           name: true,
@@ -24,12 +24,12 @@ export const createEvent = async (payload: newEvent, id: string) => {
         name: payload.name,
         description: payload.description,
         location: payload.location,
-        start_date: payload.start_date,
-        end_date: payload.end_date,
+        startDate: payload.startDate,
+        endDate: payload.endDate,
         isPremium: payload.isPremium,
-        author_id: id,
-        event_types: {
-          connectOrCreate: payload.event_types.map(type => {
+        authorId: id,
+        eventTypes: {
+          connectOrCreate: payload.eventTypes.map(type => {
             return {
               where: { name: type },
               create: { name: type },
@@ -60,7 +60,7 @@ export const viewSingleEvent = async (id: string) => {
       id,
     },
     include: {
-      event_types: true,
+      eventTypes: true,
       author: {
         select: {
           name: true,
@@ -80,14 +80,14 @@ export const viewSingleEvent = async (id: string) => {
 
 export const updateEventByID = async (
   id: string,
-  user_id: string,
+  userId: string,
   payload: updateEvent
 ) => {
-  if ((await isAdmin(user_id)) === true) {
+  if ((await isAdmin(userId)) === true) {
     const data = await prisma.event.findUnique({
       where: { id },
       include: {
-        event_types: true,
+        eventTypes: true,
         speakers: true,
       },
     });
@@ -101,12 +101,12 @@ export const updateEventByID = async (
         name: payload?.name || data.name,
         description: payload?.description || data.description,
         location: payload?.location || data.location,
-        start_date: payload?.start_date || data.start_date,
-        end_date: payload?.end_date || data.end_date,
+        startDate: payload?.startDate || data.startDate,
+        endDate: payload?.endDate || data.endDate,
         isPremium: payload?.isPremium || data.isPremium,
-        event_types: {
+        eventTypes: {
           set: [],
-          connectOrCreate: (payload?.event_types || data.event_types).map(
+          connectOrCreate: (payload?.eventTypes || data.eventTypes).map(
             type => {
               return {
                 where: { name: type },
@@ -134,11 +134,11 @@ export const updateEventByID = async (
   };
 };
 
-export const removeEvent = async (event_id: string, user_id: string) => {
-  if ((await isAdmin(user_id)) === true) {
+export const removeEvent = async (eventId: string, userId: string) => {
+  if ((await isAdmin(userId)) === true) {
     await prisma.event.delete({
       where: {
-        id: event_id,
+        id: eventId,
       },
     });
     return { statusCode: 204, message: "Event removed" };

@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./server.js",
-    "dev": "nodemon ./server.js",
+    "start": "node ./dist/app.js",
+    "dev": "nodemon ./src/app.ts",
     "build": "npm install && npx tsc",
     "migrate:dev": "npx prisma migrate dev",
     "deploy": "npx prisma migrate deploy && npx prisma generate && npx tsc"
