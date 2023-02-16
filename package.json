@@ -7,7 +7,10 @@
     "dev": "nodemon ./server.js",
     "build": "npm install && npx tsc",
     "migrate:dev": "npx prisma migrate dev",
-    "deploy": " npx prisma migrate deploy && npx prisma generate && npx tsc"
+    "deploy": "npx prisma migrate deploy && npx prisma generate && npx tsc"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
   },
   "dependencies": {
     "@prisma/client": "^4.8.0",
