@@ -13,10 +13,9 @@ const validate =
       if (!valid.success) throw valid.error;
       req.body = valid.data.body;
       return next();
-    } catch (error: any) {
+    } catch (error) {
       console.error(error);
-      const msg = error.issues.map((e: { message: string }) => e.message);
-      return res.status(400).json(msg);
+      return res.status(400).json(error);
     }
   };
 

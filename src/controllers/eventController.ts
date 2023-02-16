@@ -14,9 +14,6 @@ export const allEvents = async () => {
       speakers: true,
     },
   });
-  if (!events || events.length < 1) {
-    return { statusCode: 200, message: "Its pretty quiet in here. No event" };
-  }
   return { statusCode: 200, message: events };
 };
 
@@ -131,7 +128,10 @@ export const updateEventByID = async (
     });
     return { statusCode: 200, message: response };
   }
-   return { statusCode: 401, message: "You're not authorized to perform this operation" };
+  return {
+    statusCode: 401,
+    message: "You're not authorized to perform this operation",
+  };
 };
 
 export const removeEvent = async (event_id: string, user_id: string) => {
@@ -143,5 +143,8 @@ export const removeEvent = async (event_id: string, user_id: string) => {
     });
     return { statusCode: 204, message: "Event removed" };
   }
-  return {statusCode: 401, message: "You are not authorized to perform this operation"}
+  return {
+    statusCode: 401,
+    message: "You are not authorized to perform this operation",
+  };
 };
