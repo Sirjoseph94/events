@@ -102,9 +102,15 @@ This is an example of how to list things you need to use the software and how to
    ```sh
    yarn install
    ```
-4. Rename example.env`
-   ```js
-   const API_KEY = "ENTER YOUR API";
+4. Rename example.env to .env and insert neccessary credentials`
+  
+5. Run 
+   ```sh
+   yarn dev
+
+   yarn migrate:dev
+  
+   npx prisma db seed
    ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -148,7 +154,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 ## Contact
 
-Your Name - [@twitter_handle](https://twitter.com/joseph__ero)
+Your Name - [@joseph__ero](https://twitter.com/joseph__ero)
 
 Project Link: [https://github.com/Sirjoseph94/Events](https://github.com/Sirjoseph94/Events)
 
