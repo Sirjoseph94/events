@@ -5,9 +5,9 @@
   "scripts": {
     "start": "node ./dist/app.js",
     "dev": "nodemon ./src/app.ts",
-    "build": "npm install && npx tsc",
+    "build": "yarn install && npx tsc",
     "migrate:dev": "npx prisma migrate dev",
-    "deploy": "npx prisma migrate deploy && npx prisma generate && npx tsc"
+    "deploy": "npx prisma migrate deploy && ts-node prisma/seed.ts && npx prisma generate && npx tsc"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
