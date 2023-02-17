@@ -7,7 +7,7 @@
     "dev": "nodemon ./src/app.ts",
     "build": "yarn install && npx tsc",
     "migrate:dev": "npx prisma migrate dev",
-    "deploy": "npx prisma db push && npx prisma db seed && npx prisma generate && npx tsc"
+    "deploy": "npx prisma db push && npx prisma db seed && npx tsc"
   },
   "prisma": {
     "seed": "ts-node ./src/utils/seedDb.ts"
