@@ -142,9 +142,10 @@
                 "$ref": "#/components/schemas/Event"
               },
               "example": {
-                "name": "updated stuff 3",
-                "start_date": "2023-04-30T02:15:12.356Z",
-                "end_date": "2023-05-30T02:15:12.356Z",
+                "name": "New Event",
+                "description": "event of a lifetime",
+                "startDate": "2023-04-30T02:15:12.356Z",
+                "endDate": "2023-05-30T02:15:12.356Z",
                 "isPremium": false,
                 "location": "online",
                 "speakers": [
@@ -258,8 +259,9 @@
               },
               "example": {
                 "name": "updated stuff",
-                "start_date": "2023-04-30T02:15:12.356Z",
-                "end_date": "2023-05-30T02:15:12.356Z",
+                "description": "update event description",
+                "startDate": "2023-04-30T02:15:12.356Z",
+                "endDate": "2023-05-30T02:15:12.356Z",
                 "isPremium": false,
                 "speakers": [
                   {
@@ -299,7 +301,7 @@
                 "schema": {
                   "type": "object"
                 },
-                "example": "{\r\n    \"status\": \"successful\",\r\n    \"response\": {\r\n        \"id\": \"4986b3a3-5ddd-4ac2-8b27-c24af2cc0ae9\",\r\n        \"name\": \"updated\",\r\n        \"description\": \"Event like no other\",\r\n        \"start_date\": \"2023-04-30T02:15:12.356Z\",\r\n        \"end_date\": \"2023-05-30T02:15:12.356Z\",\r\n        \"isPremium\": true,\r\n        \"author_id\": \"ab845850-925e-4138-91b1-f6d54d377cbb\",\r\n        \"createdAt\": \"2022-12-31T02:32:30.617Z\",\r\n        \"updatedAT\": \"2023-01-13T21:07:17.244Z\"\r\n    }\r\n}"
+                "example": "{\r\n    \"status\": \"successful\",\r\n    \"response\": {\r\n        \"id\": \"4986b3a3-5ddd-4ac2-8b27-c24af2cc0ae9\",\r\n        \"name\": \"updated\",\r\n        \"description\": \"Event like no other\",\r\n        \"startDate\": \"2023-04-30T02:15:12.356Z\",\r\n        \"endDate\": \"2023-05-30T02:15:12.356Z\",\r\n        \"isPremium\": true,\r\n        \"author_id\": \"ab845850-925e-4138-91b1-f6d54d377cbb\",\r\n        \"createdAt\": \"2022-12-31T02:32:30.617Z\",\r\n        \"updatedAT\": \"2023-01-13T21:07:17.244Z\"\r\n    }\r\n}"
               }
             }
           }
@@ -450,7 +452,7 @@
       },
       "Event": {
         "type": "object",
-        "required": ["name", "start_date", "end_date"],
+        "required": ["name", "startDate", "endDate"],
         "properties": {
           "id": {
             "type": "string",
@@ -464,11 +466,11 @@
             "type": "string",
             "description": "Event description"
           },
-          "start_date": {
+          "startDate": {
             "type": "string",
             "description": "Event start date and time"
           },
-          "end_date": {
+          "endDate": {
             "type": "string",
             "description": "Event end date and time"
           },
@@ -500,8 +502,8 @@
         "example": {
           "name": "Event of the year",
           "description": "This is an event of a life time, you don't want to miss It",
-          "start_date": "2023-04-30T02:15:12.356Z",
-          "end_date": "2023-04-30T09:15:12.356Z",
+          "startDate": "2023-04-30T02:15:12.356Z",
+          "endDate": "2023-04-30T09:15:12.356Z",
           "isPremium": true,
           "event_types": ["fun", "hangout"],
           "speakers": [
