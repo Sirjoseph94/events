@@ -34,6 +34,7 @@ export async function auth(
     req.user = decoded;
     next();
   } catch (error) {
+    console.error(error)
     res.status(400).json(error);
   }
 }

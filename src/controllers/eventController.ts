@@ -46,6 +46,7 @@ export const createEvent = async (payload: newEvent, id: string) => {
         },
       },
     });
+   
     return { statusCode: 201, message: response };
   }
   throw {

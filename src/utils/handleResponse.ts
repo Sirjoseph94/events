@@ -6,7 +6,7 @@ export function success(
 ) {
   return res.status(statusCode || 304).json({
     status: "success",
-    message: data,
+    response: data,
   });
 }
 
