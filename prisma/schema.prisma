@@ -3,67 +3,59 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
-
 model User {
-  id    String  @id  @default(uuid())
-  email String  @unique
-  name  String
-  password String
-  isAdmin Boolean @default(false)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  events Event[]
+  id            String         @id @default(uuid())
+  email         String         @unique
+  name          String
+  password      String
+  isAdmin       Boolean        @default(false)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  events        Event[]
   registrations Registration[]
 }
 
 model Event {
-  id String @id  @default(uuid())
-  name String 
-  location String 
-  description String
-  startDate DateTime
-  endDate DateTime
-  isPremium Boolean
-
-  author User @relation(fields: [authorId], references: [id])
-  authorId String
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  eventTypes EventType []
-  speakers Speaker[]
+  id            String         @id @default(uuid())
+  name          String
+  location      String
+  description   String
+  isPremium     Boolean
+  createdAt     DateTime       @default(now())
+  authorId      String
+  endDate       DateTime
+  startDate     DateTime
+  updatedAt     DateTime       @updatedAt
+  author        User           @relation(fields: [authorId], references: [id])
   registrations Registration[]
+  eventTypes    EventType[]    @relation("EventToEventType")
+  speakers      Speaker[]      @relation("EventToSpeaker")
 }
 
 model EventType {
-  id String @id  @default(uuid())
-  name String @unique
-
-  events Event[] 
+  id     String  @id @default(uuid())
+  name   String  @unique
+  events Event[] @relation("EventToEventType")
 }
 
 model Speaker {
-  id String @id  @default(uuid())
-  name String @unique
+  id          String   @id @default(uuid())
+  name        String   @unique
   designation String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  events Event[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  events      Event[]  @relation("EventToSpeaker")
 }
 
 model Registration {
-  id String @id  @default(uuid())
-  attendee User @relation(fields: [attendeeId], references: [id])
+  id         String @id @default(uuid())
   attendeeId String
-  event Event @relation(fields: [eventId], references: [id])
-  eventId String
+  eventId    String
+  attendee   User   @relation(fields: [attendeeId], references: [id])
+  event      Event  @relation(fields: [eventId], references: [id])
 }

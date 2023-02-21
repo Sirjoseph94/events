@@ -27,6 +27,7 @@ router.post(
       const payload = req.body;
       const id: string = req.user.userId;
       const data = await Controller.createEvent(payload, id);
+      console.log("res", data)
       return success(res, data.statusCode, data.message);
     } catch (error: any) {
       console.error(error);
