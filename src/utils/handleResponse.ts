@@ -5,8 +5,8 @@ export function success(
   data?: Record<string, any> | string
 ) {
   return res.status(statusCode || 304).json({
-    status: "success",
-    response: data,
+    success: true,
+    data: data,
   });
 }
 
@@ -16,7 +16,7 @@ export function failed(
   data: Record<string, any>
 ) {
   return res.status(statusCode).json({
-    status: "error",
+    success: false,
     reason: data,
   });
 }
