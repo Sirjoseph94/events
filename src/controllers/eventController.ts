@@ -46,7 +46,7 @@ export const createEvent = async (payload: newEvent, id: string) => {
         },
       },
     });
-   
+
     return { statusCode: 201, message: response };
   }
   throw {
@@ -137,6 +137,8 @@ export const updateEventByID = async (
 
 export const removeEvent = async (eventId: string, userId: string) => {
   if ((await isAdmin(userId)) === true) {
+    const exist = await prisma.event.findUnique({ where: { id: eventId } });
+    if (!exist) throw { statusCode: 404, message: "Event not found" };
     await prisma.event.delete({
       where: {
         id: eventId,
@@ -144,7 +146,7 @@ export const removeEvent = async (eventId: string, userId: string) => {
     });
     return { statusCode: 204, message: "Event removed" };
   }
-  return {
+  throw {
     statusCode: 401,
     message: "You are not authorized to perform this operation",
   };
