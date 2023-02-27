@@ -2,7 +2,7 @@ import z from "zod";
 
 export const registerationValidation = z.object({
   params: z.object({
-    event_id: z.string({
+    eventId: z.string({
       required_error: "This is not a valid Event ID",
     }).uuid(),
   }),
