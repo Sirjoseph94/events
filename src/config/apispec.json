@@ -273,7 +273,7 @@
                     "designation": "VP"
                   }
                 ],
-                "event_types": ["stuff", "new"]
+                "eventTypes": ["stuff", "new"]
               }
             }
           }
@@ -366,7 +366,7 @@
         }
       }
     },
-    "/registrations/{event_id}": {
+    "/registrations/{eventId}": {
       "post": {
         "tags": ["registrations"],
         "summary": "register for event",
@@ -378,7 +378,7 @@
         ],
         "parameters": [
           {
-            "name": "event_id",
+            "name": "eventId",
             "in": "path",
             "schema": {
               "type": "string"
@@ -478,7 +478,7 @@
             "type": "boolean",
             "description": "Confirm if event is premium"
           },
-          "event_type": {
+          "eventTypes": {
             "type": "object",
             "description": "Array of object"
           },
@@ -486,7 +486,7 @@
             "type": "object",
             "description": "Array of object"
           },
-          "author_id": {
+          "authorId": {
             "type": "string",
             "description": "auto generated uuid"
           },
@@ -505,7 +505,7 @@
           "startDate": "2023-04-30T02:15:12.356Z",
           "endDate": "2023-04-30T09:15:12.356Z",
           "isPremium": true,
-          "event_types": ["fun", "hangout"],
+          "eventTypes": ["fun", "hangout"],
           "speakers": [
             {
               "name": "John Doe",
