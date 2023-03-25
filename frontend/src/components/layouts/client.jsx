@@ -1,29 +1,38 @@
 import { Outlet } from "react-router-dom";
-import { Box, Flex, Avatar, Container, Center, AvatarBadge } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Avatar,
+  Container,
+  Center,
+  Spacer,
+  Heading,
+} from "@chakra-ui/react";
 
 function Client() {
   return (
-    <div>
-      <Flex
-        bg="#3B185F"
-        justify="space-between"
-        color="#fff"
-      >
-        <AvatarBadge></AvatarBadge>
+    <>
+      <Flex as="nav" alignItems="center" bg="purple" p="10px">
+        <Heading color="#fff">Eventify</Heading>
+        <Spacer />
         <Avatar name="Dan Abrahmov" src="https://bit.ly/dan-abramov" />
-        <Center>
-          <h1>Eventify</h1>
-        </Center>
       </Flex>
-      <Container>
+      
         <Outlet />
-      </Container>
-      <Box>
-        <Center>
-          <h2>footer div</h2>
-        </Center>
-      </Box>
-    </div>
+
+        <Box
+          w="100%"
+          p="10px"
+          bg="purple.500"
+          color="gray.100"
+          bottom={0}
+          left={0}
+        >
+          <Center>
+            <h2>footer div</h2>
+          </Center>
+        </Box>
+    </>
   );
 }
 
