@@ -1,12 +1,14 @@
+import {faker} from "@faker-js/faker"
 import { PrismaClient } from "@prisma/client";
+import { encryptPassword } from "./hashPassword";
 const prisma = new PrismaClient();
 
 const seed = async () => {
-  const admin = await prisma.user.upsert({
+ const admin = await prisma.user.upsert({
     create: {
       name: "Admin Jo",
       email: "admin@mail.com",
-      password: "admin123",
+      password: await encryptPassword("admin123") as string,
       isAdmin: true,
     },
     update: {},
@@ -15,23 +17,23 @@ const seed = async () => {
     },
   });
 
-  const user = await prisma.user.upsert({
-    create: {
-      name: "User Jo",
-      email: "user@mail.com",
-      password: "user123",
-      isAdmin: false,
-    },
-    update: {},
-    where: {
-      email: "user@mail.com",
-    },
-  });
-  console.log({ admin, user });
-};
-
+  Array.from({length: 10}).map(async (_, i)=>{
+    await prisma.event.create({
+      data: {
+        name: faker.lorem.words(),
+        location: faker.address.streetAddress(true),
+        description: faker.lorem.paragraph(),
+        isPremium: faker.datatype.boolean(),
+        authorId: admin.id,
+        startDate: faker.date.soon(),
+        endDate: faker.date.future()
+      },
+    });
+});
+}
 seed()
   .then(async () => {
+    console.log("database seed successful")
     await prisma.$disconnect();
   })
   .catch(async e => {

@@ -27,7 +27,23 @@ router.post(
       const payload = req.body;
       const id: string = req.user.userId;
       const data = await Controller.createEvent(payload, id);
-      console.log("res", data)
+      console.log("res", data);
+      return success(res, data.statusCode, data.message);
+    } catch (error: any) {
+      console.error(error);
+      return failed(res, error.statusCode, error.message);
+    }
+  }
+);
+
+router.get(
+  "/search",
+  validate(Validator.searchEventValidation),
+  async (req, res) => {
+    try {
+      const quary = req.query.name as string;
+      console.log("->>", quary);
+      const data = await Controller.searchEvents(quary);
       return success(res, data.statusCode, data.message);
     } catch (error: any) {
       console.error(error);
@@ -50,6 +66,7 @@ router
   })
   .patch(
     auth,
+    validate(Validator.id),
     validate(Validator.updateEventValidation),
     async (req: userRequest, res) => {
       try {
@@ -75,4 +92,5 @@ router
       return failed(res, error.statusCode, error.message);
     }
   });
+
 export default router;

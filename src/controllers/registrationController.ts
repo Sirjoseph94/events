@@ -20,9 +20,6 @@ export const allRegistered = async (userId: string) => {
         },
       },
     });
-    if (!response.length) {
-      throw { statusCode: 404, message: "Nobody is attending any event yet" };
-    }
     return { statusCode: 200, message: response };
   }
   throw { statusCode: 401, message: "User not authorized for this operation" };
@@ -42,16 +39,33 @@ export const registerEvent = async (eventId: string, userId: string) => {
       message: `You've already registered for the event`,
     };
   }
+  const event = await prisma.event.findUnique({ where: { id: eventId } });
+  if(!event) throw {
+    statusCode: 404,
+    message: `Event with ID ${eventId} doesn't exist`,
+  };
+  if (event?.isPremium) {
+    throw {
+      statusCode: 401,
+      message: `You cannot register for premium events`,
+    };
+  }
   const response = await prisma.registration.create({
     data: {
       attendeeId: userId,
       eventId,
     },
     select: {
-      attendee: true,
+      attendee: {
+        select: {
+          name: true,
+          email: true,
+        },
+      },
       event: true,
     },
   });
+
   sendMail({
     email: response.attendee.email,
     subject: `${response.event.name}Registration Successful`,

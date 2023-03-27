@@ -1,4 +1,4 @@
-import express from "express";
+import express, { NextFunction, Request } from "express";
 import logger from "morgan";
 import helmet from "helmet";
 import swaggerUi from "swagger-ui-express";
@@ -10,6 +10,7 @@ import eventRouter from "./routes/eventRoute";
 import registrationRouter from "./routes/registrationRoute";
 import speakerRouter from "./routes/speakerRoute"
 import swaggerSpecs from "./config/apispec.json";
+import errorHandler from "./middleware/errorHandler";
 
 dotenv.config()
 
@@ -41,6 +42,8 @@ app.use((_req, res) =>
     .status(404)
     .json({ status: "Not Found", message: "This route does not exist" })
 );
+
+app.use(errorHandler)
 
 app.listen(PORT,()=>{
   console.log(`Server running at Port: ${PORT} `)

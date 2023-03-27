@@ -23,7 +23,10 @@ export const signUpController = async (payload: Record<string, any>) => {
     },
   });
 
-  return {statusCode:200, message:{token: generateAccessToken(response.id)}};
+  return {
+    statusCode: 200,
+    message: { token: generateAccessToken(response.id, response.isAdmin) },
+  };
 };
 
 export const signInController = async (payload: Record<string, any>) => {
@@ -44,6 +47,6 @@ export const signInController = async (payload: Record<string, any>) => {
   }
   return {
     statusCode: 200,
-    message: { token: generateAccessToken(user.id) },
+    message: { token: generateAccessToken(user.id, user.isAdmin) },
   };
 };

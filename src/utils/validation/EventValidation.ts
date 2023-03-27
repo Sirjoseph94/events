@@ -73,13 +73,19 @@ export const updateEventValidation = z.object({
           required_error: "Please tell us a little about the event",
         })
         .optional(),
-      startDate: z.preprocess(arg => {
-        if (typeof arg == "string" || arg instanceof Date) return new Date(arg);
-      }, z.date()),
+      startDate: z
+        .preprocess(arg => {
+          if (typeof arg == "string" || arg instanceof Date)
+            return new Date(arg);
+        }, z.date())
+        .optional(),
 
-      endDate: z.preprocess(arg => {
-        if (typeof arg == "string" || arg instanceof Date) return new Date(arg);
-      }, z.date()),
+      endDate: z
+        .preprocess(arg => {
+          if (typeof arg == "string" || arg instanceof Date)
+            return new Date(arg);
+        }, z.date())
+        .optional(),
 
       isPremium: z
         .boolean({
@@ -110,12 +116,13 @@ export const updateEventValidation = z.object({
     })
     .refine(
       ({ startDate, endDate }) =>
-        startDate < endDate && startDate >= new Date(),
+        (startDate || "") < (endDate || "") && (startDate || "") >= new Date(),
       {
         message:
-          "Start date must be before end date and Start date should be in the future",
+          "Start date must be before End date and Start date should be in the future",
       }
-    ),
+    )
+    .optional(),
 });
 
 export type updateEvent = z.infer<typeof updateEventValidation>["body"];
@@ -126,12 +133,14 @@ export const id = z.object({
       .string({
         required_error: "this is not a valid UUID",
       })
-      .min(36),
+      .uuid(),
   }),
 });
 
 export const searchEventValidation = z.object({
   query: z.object({
-    name: z.string({ required_error: "Name of event is required" }),
+    name: z.string(),
   }),
 });
+
+export type searchEvent = z.infer<typeof searchEventValidation>["query"];

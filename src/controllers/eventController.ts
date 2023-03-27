@@ -1,19 +1,13 @@
 import prisma from "../config/prismaClient";
 import isAdmin from "../utils/isAdmin";
-import { newEvent, updateEvent } from "../utils/validation/EventValidation";
+import {
+  newEvent,
+  searchEvent,
+  updateEvent,
+} from "../utils/validation/EventValidation";
 
 export const allEvents = async () => {
-  const events = await prisma.event.findMany({
-    include: {
-      eventTypes: true,
-      author: {
-        select: {
-          name: true,
-        },
-      },
-      speakers: true,
-    },
-  });
+  const events = await prisma.event.findMany();
   return { statusCode: 200, message: events };
 };
 
@@ -67,7 +61,12 @@ export const viewSingleEvent = async (id: string) => {
           name: true,
         },
       },
-      speakers: true,
+      speakers: {
+        select: {
+          name: true,
+          designation: true,
+        },
+      },
     },
   });
   if (!event) {
@@ -89,7 +88,12 @@ export const updateEventByID = async (
       where: { id },
       include: {
         eventTypes: true,
-        speakers: true,
+        speakers: {
+          select: {
+            name: true,
+            designation: true,
+          },
+        },
       },
     });
     if (!data) {
@@ -107,23 +111,26 @@ export const updateEventByID = async (
         isPremium: payload?.isPremium || data.isPremium,
         eventTypes: {
           set: [],
-          connectOrCreate: (payload?.eventTypes || data.eventTypes).map(
-            type => {
-              return {
-                where: { name: type },
-                create: { name: type },
-              };
-            }
-          ) as any,
+          connectOrCreate: (payload?.eventTypes || []).map(type => {
+            return {
+              where: { name: type },
+              create: { name: type },
+            };
+          }) as any,
         },
         speakers: {
           set: [],
-          connectOrCreate: (payload?.speakers || data.speakers).map(speaker => {
-            return {
-              where: { name: speaker.name },
-              create: { name: speaker.name, designation: speaker.designation },
-            };
-          }),
+          connectOrCreate: (payload?.speakers || data.speakers).map(
+            (speaker: { name: string; designation: string }) => {
+              return {
+                where: { name: speaker.name },
+                create: {
+                  name: speaker.name,
+                  designation: speaker.designation,
+                },
+              };
+            }
+          ),
         },
       },
     });
@@ -136,18 +143,30 @@ export const updateEventByID = async (
 };
 
 export const removeEvent = async (eventId: string, userId: string) => {
-  if ((await isAdmin(userId)) === true) {
+  if (await isAdmin(userId)) {
     const exist = await prisma.event.findUnique({ where: { id: eventId } });
     if (!exist) throw { statusCode: 404, message: "Event not found" };
-    await prisma.event.delete({
-      where: {
-        id: eventId,
-      },
-    });
-    return { statusCode: 204, message: "Event removed" };
+    await prisma.event.delete({ where: { id: exist.id } });
+    return { statusCode: 200, message: "event deleted" };
   }
   throw {
     statusCode: 401,
     message: "You are not authorized to perform this operation",
   };
+};
+
+export const searchEvents = async (query: string) => {
+  const res = await prisma.event.findMany({
+    where: {
+      name: {
+        search: query,
+      },
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+    take: 5,
+  });
+
+  return { statusCode: 200, message: res };
 };
